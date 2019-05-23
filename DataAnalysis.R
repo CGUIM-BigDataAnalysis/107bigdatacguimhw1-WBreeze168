@@ -41,3 +41,18 @@ main.class = function(x){
 data2$class = sapply(data2$class,main.class)
 table(data2$class)
 
+data3 = data.table(data)
+data3 = data3[!is.na(MS106)&!is.na(US106),.(class,raise_rate = ((MS106-US106)/US106)*100)]
+data3 = data3[order(raise_rate,decreasing = T)]
+head(data3,10)
+
+data4 = data.table(data)
+data4 = data4[c(79:81,100:102),.(class,US106,MS106,raise=(MS106-US106),raise_rate=(MS106-US106)/US106*100)]
+print(data4)
+mean(data4$raise)
+
+data5 = data.table(data)
+data5 = data5[,.(class,UG103,UG104,UG105,UG106)]
+count(data5[!is.na(UG106)])
+data5[UG103>=100|UG104>=100|UG105>=100|UG106>=100]
+data5[UG103<=95|UG104<=95|UG105<=95|UG106<=95]
